@@ -1,0 +1,483 @@
+{
+	"info": {
+		"_postman_id": "599ca5f9-8511-45ae-b5ec-bbe0894f12d1",
+		"name": "ServiceNow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16524767"
+	},
+	"item": [
+		{
+			"name": "CreateTicket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is checked\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    //pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"    //pm.response.to.have.status(201 ||201) ;\r",
+							"});\r",
+							"Resp=pm.response.json();\r",
+							"sysidd=Resp.result.sys_id;\r",
+							"pm.globals.set(\"G_Sysid\",sysidd);\r",
+							"console.log(\"Sysid from POST\"+sysidd);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Mx@k3dXi@BS1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"Windows Issue\",\r\n    \"description\": \"Windows server 192.167.2.3 is not booting up after the recent windows secruity patch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev66206.service-now.com/api/now/table/incident",
+					"protocol": "https",
+					"host": [
+						"dev66206",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetreiveBy_sysId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Mx@k3dXi@BS1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://dev66206.service-now.com/api/now/table/incident/{{G_Sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev66206",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_Sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify_Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Mx@k3dXi@BS1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"approval\": \"Pending on the basis of request\",\r\n    \"approval_history\": \"Updated due to requisition from client\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev66206.service-now.com/api/now/table/incident/{{G_Sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev66206",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_Sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch_Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200,patch done\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"console.error;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Mx@k3dXi@BS1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"approval\": \"Yet to get client Approval\",\r\n    \"approval_history\": \"Approved based on client request\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev66206.service-now.com/api/now/table/incident/{{G_Sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev66206",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_Sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 is appearing\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Mx@k3dXi@BS1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev66206.service-now.com/api/now/table/incident/{{G_Sysid}}",
+					"protocol": "https",
+					"host": [
+						"dev66206",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident",
+						"{{G_Sysid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NewTicket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 is appearing\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Mx@k3dXi@BS1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"approval\": \"Pending approval\",\r\n    \"approval_history\": \"Succesfully updated the history\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev66206.service-now.com/api/now/table/incident",
+					"protocol": "https",
+					"host": [
+						"dev66206",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"incident"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Zocca-request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body matches the givenstring\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Zocca\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=a754ee10d05c5c37be3dd55317eb060d",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "appid",
+							"value": "a754ee10d05c5c37be3dd55317eb060d"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GraphQl-raw",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 appeared\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "  {\r\n  countries {\r\n    code\r\n    name\r\n    emoji\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "https://countries.trevorblades.com/",
+					"protocol": "https",
+					"host": [
+						"countries",
+						"trevorblades",
+						"com"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QueryParam_incidentDetails",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
